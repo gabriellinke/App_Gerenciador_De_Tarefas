@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Gerenciador de Tarefas</string>
+    <string name="label_insert">Inserir tarefa</string>
+
+    <string name="inserir_message">Insira a nova tarefa:</string>
+    <string name="inserir_data_message">Insira a data para a tarefa \n(dd/mm/aaaa):</string>
+
+    <string name="add_button">Adicionar tarefa</string>
+
+</resources>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/txvTarefa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tarefa"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="27dp"
+        tools:layout_editor_absoluteY="1dp" />
+
+    <TextView
+        android:id="@+id/txvData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txvTarefa"
+        android:layout_marginTop="0dp"
+        android:text="SEX - 29/05/2020"
+        android:textSize="14sp"
+        tools:layout_editor_absoluteX="27dp"
+        tools:layout_editor_absoluteY="1dp" />
+</RelativeLayout>
