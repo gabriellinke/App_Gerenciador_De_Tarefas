@@ -3,8 +3,10 @@ package com.example.gtapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        definirAlarme();
 
         FloatingActionButton insertButton = (FloatingActionButton) findViewById(R.id.insert_button);
         insertButton.setOnClickListener(new View.OnClickListener() {
@@ -44,18 +47,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //AO DAR UM CLIQUE LONGO EM UM ITEM DA LISTA, ABRE UMA JANELA COM A OPÇÃO DE EDITAR OU FINALIZAR A TAREFA
         final ListView lv = (ListView) findViewById(R.id.ltvTarefas);
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
                 TextView txvTarefa = (TextView) arg1.findViewById(R.id.txvTarefa);
                 String tarefa = txvTarefa.getText().toString();
-                Log.d("long", tarefa);
-
                 TextView txvData = (TextView) arg1.findViewById(R.id.txvData);
                 String data = txvData.getText().toString();
-                Log.d("long", data);
-
 
                 exibirEscolha(tarefa, data);
 
@@ -190,5 +190,31 @@ public class MainActivity extends AppCompatActivity {
 
         //MOSTRA A CAIXA DE DIÁLOGO NA TELA
         msgbox.show();
+    }
+
+    // USADO PARA CRIAR A NOTIFICAÇÃO
+    private void definirAlarme()
+    {
+        Intent broadcastIntent = new Intent(this, AlarmReceiver.class);
+        PendingIntent actionIntent = PendingIntent.getBroadcast(this, 0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //DEFINE O HORÁRIO DA PRIMEIRA NOTIFICAÇÃO
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 20);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND,0);
+
+        long startUpTime = calendar.getTimeInMillis();
+
+        //REPETE A NOTIFICAÇÃO A CADA 4h
+        long repeat = 4*60*60*1000;
+
+        if (System.currentTimeMillis() > startUpTime) {
+            startUpTime = startUpTime + repeat;
+        }
+
+        if(alarmManager!=null)
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, startUpTime, repeat, actionIntent);
     }
 }
