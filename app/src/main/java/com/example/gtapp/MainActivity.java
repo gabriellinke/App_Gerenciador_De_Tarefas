@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -44,26 +45,19 @@ public class MainActivity extends AppCompatActivity {
         });
 
         final ListView lv = (ListView) findViewById(R.id.ltvTarefas);
-
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
+                TextView txvTarefa = (TextView) arg1.findViewById(R.id.txvTarefa);
+                String tarefa = txvTarefa.getText().toString();
+                Log.d("long", tarefa);
 
-                Log.d("long","pos: " + pos);
+                TextView txvData = (TextView) arg1.findViewById(R.id.txvData);
+                String data = txvData.getText().toString();
+                Log.d("long", data);
 
-                TextView textView2 = (TextView) arg1.findViewById(R.id.txvTarefa);
-                String text2 = textView2.getText().toString();
-                Log.d("long", text2);
 
-                TextView textView = (TextView) arg1.findViewById(R.id.txvData);
-                String text = textView.getText().toString();
-                Log.d("long", text);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getBaseContext());
-                builder.setMessage(R.string.dialog_message)
-                        .setTitle(R.string.dialog_title);
-
-                exibirEscolha();
+                exibirEscolha(tarefa, data);
 
                 return true;
             }
@@ -157,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //CRIA UMA CAIXA DE DIÁLOGO ONDE O USUÁRIO ESCOLHE SE QUER FINALIZAR OU EDITAR A TAREFA
-    private void exibirEscolha()
+    private void exibirEscolha(final String tarefa, final String data)
     {
         //CRIA A CAIXA DE DIÁLOGO
         AlertDialog.Builder msgbox = new AlertDialog.Builder(this);
@@ -167,7 +161,16 @@ public class MainActivity extends AppCompatActivity {
         msgbox.setPositiveButton(R.string.end_button, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.d("long", "Finalizar Tarefa");
+                //ATUALIZAR BANCO DE DADOS
+                Bundle bundle = new Bundle();
+                bundle.putString("tarefa", tarefa);
+                bundle.putInt("id", 4);
+
+                Intent intent = new Intent(getBaseContext(), CursoresActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+
+                Toast.makeText(getApplicationContext(), "Tarefa finalizada", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -175,7 +178,13 @@ public class MainActivity extends AppCompatActivity {
         msgbox.setNegativeButton(R.string.edit_button, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.d("long", "Editar Tarefa");
+                Bundle bundle = new Bundle();
+                bundle.putString("tarefa", tarefa);
+                bundle.putString("data", data);
+
+                Intent intent = new Intent(getBaseContext(), EditActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 

@@ -6,53 +6,68 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import javax.xml.transform.dom.DOMLocator;
+public class EditActivity extends AppCompatActivity {
 
-public class InsertActivity extends AppCompatActivity {
+    private String tarefaNova;
+    private String dataNova;
+    private String tarefaAntiga;
+    private String dataAntiga;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_insert);
+        setContentView(R.layout.activity_edit);
 
-        Button inserir = (Button) findViewById(R.id.add_button);
-        inserir.setOnClickListener(new View.OnClickListener() {
+        Intent intent = getIntent();
+        Bundle dados = intent.getExtras();  //RECUPERA DADOS DA ACTIVITY ANTERIOR
+
+        assert dados != null;
+        tarefaAntiga = dados.getString("tarefa");
+        dataAntiga = dados.getString("data");
+
+        final EditText tarefaEdit = (EditText) findViewById(R.id.editInsira2);
+        final EditText dataEdit = (EditText) findViewById(R.id.editInsiraData2);
+
+        //DEFINE O TEXTO DA FORMA QUE ELE ESTAVA ANTES DO USUÁRIO CLICAR PRA EDITAR A TAREFA
+        //PARA FACILITAR QUE SE FASSAM PEQUENAS MODIFICAÇÕES
+        tarefaEdit.setText(tarefaAntiga);
+        assert dataAntiga != null;
+        dataEdit.setText(dataAntiga.substring(6));
+
+        Button editar = (Button) findViewById(R.id.edit_button);
+        editar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText tarefaEdit = (EditText) findViewById(R.id.editInsira);
-                EditText dataEdit = (EditText) findViewById(R.id.editInsiraData);
-                String tarefa = tarefaEdit.getText().toString();
-                String data = dataEdit.getText().toString();
 
-                inserirTarefa(tarefa, data);
+                tarefaNova = tarefaEdit.getText().toString();
+                dataNova = dataEdit.getText().toString();
+
+                inserirTarefa();
             }
         });
-
     }
 
 
-    private void inserirTarefa(String tarefa, String data)
+    private void inserirTarefa()
     {
         //VERIFICA O FORMATO DA DATA
-        int[] dataInt = verificaData(data);
+        int[] dataInt = verificaData(dataNova);
         //VERIFICA QUAL É O DIA DA SEMANA DA DATA
         String dataBD = getDiaSemana(dataInt);
         //VERIFICA SE A STRING DA DATA ESTÁ BEM FORMADA PARA SER INCLUIDA NO BANCO DE DADOS
         dataBD = verificarStringData(dataInt, dataBD);
         //ADICIONAR A TAREFA AO BANCO DE DADOS
-        atualizarBanco(tarefa, dataBD);
-        Toast.makeText(getApplicationContext(), "Tarefa adicionada", Toast.LENGTH_SHORT).show();
+        atualizarBanco(tarefaAntiga, dataAntiga, tarefaNova, dataBD);
+        Toast.makeText(getApplicationContext(), "Tarefa editada", Toast.LENGTH_SHORT).show();
         finish();
     }
 
@@ -67,13 +82,19 @@ public class InsertActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void atualizarBanco(String tarefa, String data)
+    private void atualizarBanco(String tarefa, String data, String tarefaNova, String dataNova)
     {
+        Log.d("edit", tarefaNova);
+        Log.d("edit", dataNova);
+
         //ATUALIZAR BANCO DE DADOS
+        //PASSANDO ID 2 VAI SUBSTITUIR A TAREFA E A DATA
         Bundle bundle = new Bundle();
         bundle.putString("tarefa", tarefa);
         bundle.putString("data", data);
-        bundle.putInt("id", 1);
+        bundle.putString("tarefaNova", tarefaNova);
+        bundle.putString("dataNova", dataNova);
+        bundle.putInt("id", 2);
 
         Intent intent = new Intent(getBaseContext(), CursoresActivity.class);
         intent.putExtras(bundle);

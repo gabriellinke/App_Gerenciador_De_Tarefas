@@ -28,6 +28,12 @@
             tools:ignore="LockedOrientationActivity"
             android:name=".InsertActivity" />
 
+        <activity
+            android:label="@string/label_edit"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
+            android:name=".EditActivity" />
+
         <activity android:name=".CursoresActivity" />
     </application>
 

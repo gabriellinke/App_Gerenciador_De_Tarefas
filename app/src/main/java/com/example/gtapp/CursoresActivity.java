@@ -16,6 +16,8 @@ public class CursoresActivity extends AppCompatActivity
     private int id;
     private String data;
     private String tarefa;
+    private String dataNova;
+    private String tarefaNova;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
@@ -31,6 +33,8 @@ public class CursoresActivity extends AppCompatActivity
         id = dados.getInt("id");
         tarefa = dados.getString("tarefa");
         data = dados.getString("data");
+        tarefaNova = dados.getString("tarefaNova");
+        dataNova = dados.getString("dataNova");
 
         switch (id) //REALIZA ALGUMA AÇÃO BASEADA NO ID RECEBIDO
         {
@@ -38,10 +42,13 @@ public class CursoresActivity extends AppCompatActivity
                 criarRegistros();
                 break;
             case 2:
-                //editarRegistros();
+                atualizarRegistro();
                 break;
             case 3:
                 deletarRegistros();
+                break;
+            case 4:
+                removerRegistro();
                 break;
         }
 
@@ -62,7 +69,35 @@ public class CursoresActivity extends AppCompatActivity
     }
 
 
-    public void deletarRegistros()
+    public void atualizarRegistro()
+    {
+        DBHelper db = new DBHelper(getBaseContext());       //CRIA UM BANCO
+        SQLiteDatabase banco = db.getWritableDatabase();
+
+        ContentValues ctv = new ContentValues();
+        ctv.put("tarefa", tarefaNova);
+        ctv.put("data", dataNova);
+
+        //ATUALIZA O A TAREFA ANTIGA COM A NOVA TAREFA E A NOVA DATA
+        String [] args = {tarefa};
+        banco.update("tarefas", ctv, "tarefa=?", args);
+
+        finish(); //FINALIZA A ACTIVITY
+    }
+
+    public void removerRegistro()
+    {
+        DBHelper db = new DBHelper(getBaseContext());       //CRIA UM BANCO
+        SQLiteDatabase banco = db.getWritableDatabase();
+
+        //DELETA A TAREFA QUE FOI PASSADA
+        String [] args = {tarefa};
+        banco.delete("tarefas", "tarefa=?", args);
+
+        finish(); //FINALIZA A ACTIVITY
+    }
+
+    private void deletarRegistros()
     {
         DBHelper db = new DBHelper(getBaseContext());       //CRIA UM BANCO
         SQLiteDatabase banco = db.getWritableDatabase();
