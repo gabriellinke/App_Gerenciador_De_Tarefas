@@ -26,8 +26,6 @@ public class InsertActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert);
 
-        esvaziarTarefas();
-
         Button inserir = (Button) findViewById(R.id.add_button);
         inserir.setOnClickListener(new View.OnClickListener() {
             @Override
