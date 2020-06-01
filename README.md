@@ -1,4 +1,4 @@
-# GerenciadorDeTarefas
+# Gerenciador De Tarefas (GT)
 Aplicativo criado com o intuito de auxiliar o usuário a organizar as suas tarefas.
 
 Ao abrir o aplicativo, o usuário se depara
