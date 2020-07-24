@@ -13,15 +13,36 @@ feita por meio de um clique longo sobre a tarefa, o que redicionará o usuário 
 Além disso, o aplicativo também é responsável por enviar notificações para alertar que existem tarefas a
 serem realizadas. Pode-se ter uma visão geral do app a seguir: 
 
-Tela para adição de tarefas:
+<br>
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/51447706/83443067-85907600-a41f-11ea-96fa-bfab4c992298.jpeg" width="200" />
+</p>
+<p align="center">
+  Figura 1: Tela para adição de tarefas.
+</p>
 
-<img src="https://user-images.githubusercontent.com/51447706/83443067-85907600-a41f-11ea-96fa-bfab4c992298.jpeg" width="200" />
-Tela para visualizar as tarefas:
+<br>
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/51447706/83443184-b4a6e780-a41f-11ea-901d-9ac48f57448a.jpeg" width="200" />
+</p>
+<p align="center">
+  Figura 2: Tela para visualizar as tarefas.
+</p>
 
-<img src="https://user-images.githubusercontent.com/51447706/83443184-b4a6e780-a41f-11ea-901d-9ac48f57448a.jpeg" width="200" />
-Tela para edição de tarefas:
+<br>
 
-<img src="https://user-images.githubusercontent.com/51447706/83443150-a953bc00-a41f-11ea-9738-087af81e410b.jpeg" width="200" />
-Tela para escolher finalizar ou editar a tarefa:
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/51447706/83443150-a953bc00-a41f-11ea-9738-087af81e410b.jpeg" width="200" />
+</p>
+<p align="center">
+  Figura 3: Tela para edição de tarefas.
+</p>
 
-<img src="https://user-images.githubusercontent.com/51447706/83443170-af499d00-a41f-11ea-9dac-f50a2488631e.jpeg" width="200" />
+<br>
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/51447706/83443170-af499d00-a41f-11ea-9dac-f50a2488631e.jpeg" width="200" />
+</p>
+<p align="center">
+  Figura 4: Tela para escolher finalizar ou editar a tarefa.
+</p>
