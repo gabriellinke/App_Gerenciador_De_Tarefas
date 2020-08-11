@@ -1,21 +1,26 @@
 package com.example.gtapp;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
+import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class EditActivity extends AppCompatActivity {
+public class EditActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
     private String tarefaNova;
     private String dataNova;
@@ -30,18 +35,25 @@ public class EditActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle dados = intent.getExtras();  //RECUPERA DADOS DA ACTIVITY ANTERIOR
 
+        Button calendarButton = (Button) findViewById(R.id.calendar);
+        calendarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment datePicker = new DatePickerFragment();
+                datePicker.show(getSupportFragmentManager(), "date picker");
+            }
+        });
+
         assert dados != null;
         tarefaAntiga = dados.getString("tarefa");
         dataAntiga = dados.getString("data");
 
         final EditText tarefaEdit = (EditText) findViewById(R.id.editInsira2);
-        final EditText dataEdit = (EditText) findViewById(R.id.editInsiraData2);
+        final TextView dataEdit = (TextView) findViewById(R.id.editInsiraData2);
 
         //DEFINE O TEXTO DA FORMA QUE ELE ESTAVA ANTES DO USUÁRIO CLICAR PRA EDITAR A TAREFA
         //PARA FACILITAR QUE SE FASSAM PEQUENAS MODIFICAÇÕES
         tarefaEdit.setText(tarefaAntiga);
-        assert dataAntiga != null;
-        dataEdit.setText(dataAntiga.substring(6));
 
         Button editar = (Button) findViewById(R.id.edit_button);
         editar.setOnClickListener(new View.OnClickListener() {
@@ -56,20 +68,104 @@ public class EditActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+        String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+
+        TextView date = (TextView) findViewById(R.id.editInsiraData2);
+        date.setText(currentDateString);
+    }
 
     private void inserirTarefa()
     {
-        //VERIFICA O FORMATO DA DATA
-        int[] dataInt = verificaData(dataNova);
-        //VERIFICA QUAL É O DIA DA SEMANA DA DATA
-        String dataBD = getDiaSemana(dataInt);
-        //VERIFICA SE A STRING DA DATA ESTÁ BEM FORMADA PARA SER INCLUIDA NO BANCO DE DADOS
-        dataBD = verificarStringData(dataInt, dataBD);
         //ADICIONAR A TAREFA AO BANCO DE DADOS
-        atualizarBanco(tarefaAntiga, dataAntiga, tarefaNova, dataBD);
+        atualizarBanco(tarefaAntiga, dataAntiga, tarefaNova, formatarData(dataNova));
         Toast.makeText(getApplicationContext(), "Tarefa editada", Toast.LENGTH_SHORT).show();
         finish();
     }
+
+    String formatarData(String data)
+    {
+        String diaSemana = data.substring(0, 3).toUpperCase();
+        String mesDia = (data.substring(data.indexOf(",")+2, data.lastIndexOf(",")));
+        String ano = (data.substring(data.lastIndexOf(",")+2));
+        String dia = getDia(mesDia);
+        String mes = getMes(mesDia);
+
+
+        Log.d("date", data);
+        String dataFinal = diaSemana +" - "+ dia +"/"+ mes +"/"+  ano;
+        Log.d("date", dataFinal);
+        return dataFinal;
+    }
+
+    String getMes(String mesDia)
+    {
+        String mes = (mesDia.substring(0, mesDia.length() - 2)).trim();
+        String finalMes = "00";
+
+        switch (mes)
+        {
+            case "January":
+                finalMes = "01";
+                break;
+            case "February":
+                finalMes = "02";
+                break;
+            case "March":
+                finalMes = "03";
+                break;
+            case "April":
+                finalMes = "04";
+                break;
+            case "May":
+                finalMes = "05";
+                break;
+            case "June":
+                finalMes = "06";
+                break;
+            case "July":
+                finalMes = "07";
+                break;
+            case "August":
+                finalMes = "08";
+                break;
+            case "September":
+                finalMes = "09";
+                break;
+            case "October":
+                finalMes = "10";
+                break;
+            case "November":
+                finalMes = "11";
+                break;
+            case "December":
+                finalMes = "12  ";
+                break;
+            default:
+                finalMes = "00";
+        }
+
+        return finalMes;
+    }
+
+    String getDia(String mesDia)
+    {
+        String finalDay = "0";
+        int dia = Integer.parseInt((mesDia.substring(mesDia.length() - 2)).trim());
+        if(dia < 10)
+            finalDay = finalDay + dia;
+        else
+            finalDay = String.valueOf(dia);
+
+        return finalDay;
+    }
+
 
     private void esvaziarTarefas() //UTILIZADO DURANTE O DESENVOLVIMENTO DA APLICAÇÃO
     {
@@ -99,99 +195,5 @@ public class EditActivity extends AppCompatActivity {
         Intent intent = new Intent(getBaseContext(), CursoresActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
-    }
-
-    private String getDiaSemana(int[] dataInt)
-    {
-        Calendar dataTarefa = new GregorianCalendar(dataInt[2], dataInt[1]-1, dataInt[0]);
-        int dds = dataTarefa.get(GregorianCalendar.DAY_OF_WEEK);
-
-        String dSemana;
-
-        switch(dds)
-        {
-            case 1:
-                dSemana = "DOM - ";
-                break;
-            case 2:
-                dSemana = "SEG - ";
-                break;
-            case 3:
-                dSemana = "TER - ";
-                break;
-            case 4:
-                dSemana = "QUA - ";
-                break;
-            case 5:
-                dSemana = "QUI - ";
-                break;
-            case 6:
-                dSemana = "SEX - ";
-                break;
-            case 7:
-                dSemana = "SAB - ";
-                break;
-            default:
-                dSemana = "ERRO- ";
-        }
-
-        return dSemana;
-    }
-
-    private int[] verificaData(String data)
-    {
-        int[] dataInt = new int[3];
-
-        //VERIFICA SE A DATA ESTÁ NO FORMATO CERTO
-        try{
-            if(!data.contains("/")) {
-                int erro = Integer.parseInt("/"); //PARA FORÇAR UM THROW SE O USUÁRIO DIGITAR QUALQUER COISA QUE NÃO CONTENHA BARRA
-            }
-
-            dataInt[0] = Integer.parseInt(data.substring(0 ,data.indexOf("/")));
-            dataInt[1] = Integer.parseInt(data.substring(data.indexOf("/")+1, data.lastIndexOf("/")));
-            dataInt[2] = Integer.parseInt(data.substring(data.lastIndexOf("/")+1));
-
-            if(dataInt[2] < 2000) {
-                int erro = Integer.parseInt("/"); //PARA FORÇAR UM THROW CASO O USUÁRIO TENTE DIGITAR UMA DATA MUITO ANTIGA - TAMBÉM PARA EVITAR QUE A DATA TENHA MENOS DE 4 DÍGITOS, O QUE CAUSARIA UM ERRO NA LEITURA DO BANCO DE DADOS
-            }
-
-        }catch(NumberFormatException e){
-            //VALOR DEFAULT PARA A DATA CASO ESTEJA NO FORMATO ERRADO
-            dataInt[0] = 1;
-            dataInt[1] = 1;
-            dataInt[2] = 2000;
-
-            Toast.makeText(getApplicationContext(), "Data inválida", Toast.LENGTH_SHORT).show();
-            return dataInt;
-        }
-
-        return dataInt;
-    }
-
-    private String verificarStringData(int[] dataInt, String dataBD)
-    {
-        //VERIFICA SE O DIA É MENOR QUE 31 E O MES MENOR QUE 12. ADICIONA UM 0 NA STRING SE O NÚMERO DO DIA OU MÊS FOR MENOR QUE 10.
-        //UMA MELHOR VERIFICAÇÃO PARA O DIA SERIA FEITA SE FOSSE BASEADA NA QUANTIDADE DE DIAS DO MÊS, ALÉM DE LEVAR EM CONTA SE O ANO É BISSEXTO, PORÉM, ACREDITO QUE ISSO SEJA DESNECESSÁRIO
-
-        if (dataInt[0] > 31) {
-            Toast.makeText(getApplicationContext(), "Data inválida", Toast.LENGTH_SHORT).show();
-            dataBD = dataBD + 31 + "/";
-        } else if (dataInt[0] < 10)
-            dataBD = dataBD + "0" + dataInt[0] + "/";
-        else
-            dataBD = dataBD + dataInt[0] + "/";
-
-        if (dataInt[1] > 12) {
-            Toast.makeText(getApplicationContext(), "Data inválida", Toast.LENGTH_SHORT).show();
-            dataBD = dataBD + 12 + "/";
-        } else if (dataInt[1] < 10)
-            dataBD = dataBD + "0" + dataInt[1] + "/";
-        else
-            dataBD = dataBD + dataInt[1] + "/";
-
-        dataBD = dataBD + dataInt[2];
-
-        return dataBD;
     }
 }

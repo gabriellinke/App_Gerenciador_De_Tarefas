@@ -5,11 +5,12 @@
 
     <string name="inserir_message">Insira a nova tarefa:</string>
     <string name="inserir_edit_message">Insira a tarefa:</string>
-    <string name="inserir_data_message">Insira a data para a tarefa \n(dd/mm/aaaa):</string>
+    <string name="inserir_data_message">Insira a data para a tarefa</string>
     <string name="dialog_message">O que deseja fazer com essa tarefa?</string>
     <string name="dialog_title"> Título </string>
 
     <string name="add_button">Adicionar tarefa</string>
+    <string name="date_button">Abrir\ncalendário</string>
     <string name="edit_task_button"> Editar tarefa</string>
     <string name="edit_button">Editar</string>
     <string name="end_button">Finalizar</string>
