@@ -123,11 +123,10 @@ public class MainActivity extends AppCompatActivity {
 
             int ano = Integer.parseInt(data.substring(12,16));
             int mes = (Integer.parseInt(data.substring(9,11)) - 1);
-            int dia = Integer.parseInt(data.substring(6,8));
+            int dia = Integer.parseInt(data.substring(6,8)) + 1;    // Faz +1 porque se o pela biblioteca do Calendar, se a data for a mesma que a de hoje, ele já consideraria a tarefa como atrasada
 
             //DATA DO BANCO DE DADOS
             Calendar user = new GregorianCalendar(ano, mes, dia);
-
             //DATA ATUAL
             Calendar now = new GregorianCalendar();
 

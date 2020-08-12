@@ -97,10 +97,7 @@ public class EditActivity extends AppCompatActivity implements DatePickerDialog.
         String dia = getDia(mesDia);
         String mes = getMes(mesDia);
 
-
-        Log.d("date", data);
         String dataFinal = diaSemana +" - "+ dia +"/"+ mes +"/"+  ano;
-        Log.d("date", dataFinal);
         return dataFinal;
     }
 

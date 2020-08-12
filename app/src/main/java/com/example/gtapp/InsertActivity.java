@@ -66,10 +66,7 @@ public class InsertActivity extends AppCompatActivity implements DatePickerDialo
         String dia = getDia(mesDia);
         String mes = getMes(mesDia);
 
-
-        Log.d("date", data);
         String dataFinal = diaSemana +" - "+ dia +"/"+ mes +"/"+  ano;
-        Log.d("date", dataFinal);
         return dataFinal;
     }
 
