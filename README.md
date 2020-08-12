@@ -19,8 +19,7 @@
 
 <br>
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/51447706/83443067-85907600-a41f-11ea-96fa-bfab4c992298.jpeg" width="200" />
-</p>
+  <img src="https://user-images.githubusercontent.com/51447706/90023103-b4ca2b80-dc89-11ea-9ed1-07f3ceb92e17.png" width="200" />
 </p>
 <p align="center">
   Figura 1: Tela para adição de tarefas.
@@ -28,19 +27,27 @@
 
 <br>
 <p align="center">
+  <img src="https://user-images.githubusercontent.com/51447706/90022781-500ed100-dc89-11ea-906f-35ae21c803c9.png" width="200" />
+</p>
+<p align="center">
+  Figura 2: Escolha da data da tarefa.
+</p>
+
+<br>
+<p align="center">
   <img src="https://user-images.githubusercontent.com/51447706/83443184-b4a6e780-a41f-11ea-901d-9ac48f57448a.jpeg" width="200" />
 </p>
 <p align="center">
-  Figura 2: Tela para visualizar as tarefas.
+  Figura 3: Tela para visualizar as tarefas.
 </p>
 
 <br>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/51447706/83443150-a953bc00-a41f-11ea-9738-087af81e410b.jpeg" width="200" />
+  <img src="https://user-images.githubusercontent.com/51447706/90023161-c7446500-dc89-11ea-8f4f-a30da9cec577.png" width="200" />
 </p>
 <p align="center">
-  Figura 3: Tela para edição de tarefas.
+  Figura 4: Tela para edição de tarefas.
 </p>
 
 <br>
@@ -49,5 +56,5 @@
   <img src="https://user-images.githubusercontent.com/51447706/83443170-af499d00-a41f-11ea-9dac-f50a2488631e.jpeg" width="200" />
 </p>
 <p align="center">
-  Figura 4: Tela para escolher finalizar ou editar a tarefa.
+  Figura 5: Tela para escolher finalizar ou editar a tarefa.
 </p>
